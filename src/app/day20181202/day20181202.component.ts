@@ -8,8 +8,10 @@ import { Component, OnInit } from '@angular/core';
 export class Day20181202Component implements OnInit {
 
   sPartOneData: string;
+  sPartTwoData: string;
   aLines: string[];
   sPartOneAnswer: number;
+  sPartTwoAnswer: string;
   aCounts: number[];
 
   constructor() { }
@@ -48,7 +50,42 @@ export class Day20181202Component implements OnInit {
   }
 
 
+  public runPart2() {
+    this.sPartTwoAnswer = ''; // ready answer
+    this.aLines = this.sPartTwoData.split('\n');
 
+    let nCharsMatch: number;
+    nCharsMatch = 0; // acutal restu of find simmilar
+    let sFixedBox: string;
+    sFixedBox = '';
+    for (let nBoxFirst = 0; nBoxFirst < this.aLines.length; nBoxFirst++) {
+      const elementFirst = this.aLines[nBoxFirst];
+      for (let nBoxSecond = nBoxFirst + 1; nBoxSecond < this.aLines.length; nBoxSecond++) {
+        const elementSecond = this.aLines[nBoxSecond];
+
+        const mutual = this.retriveMutualPos(elementFirst.split(''), elementSecond.split(''));
+        if (mutual.length > nCharsMatch) {
+          // if we fund better pair, get it !
+          nCharsMatch = mutual.length;
+          this.sPartTwoAnswer = mutual.join('');
+        }
+
+      }
+
+    }
+
+  }
+
+  private retriveMutualPos(aFirst, aSecond) {
+    let result = '';
+
+    for (let index = 0; index < aFirst.length; index++) {
+      if (aFirst[index] === aSecond[index]) {
+        result += aFirst[index];
+      }
+    }
+    return result.split('');
+  }
 
   ngOnInit() {
   }
@@ -58,7 +95,7 @@ export class Day20181202Component implements OnInit {
 class Line {
 
   aChars: string[]; // table with char
-  aCount:  number[]; // table with count of this chars
+  aCount: number[]; // table with count of this chars
 
   constructor(private sBoxId: string) {
     this.aChars = [];
@@ -68,8 +105,8 @@ class Line {
   }
 
   public show() {
-  //  console.log(this.aChars);
-  //  console.log(this.aCount);
+    //  console.log(this.aChars);
+    //  console.log(this.aCount);
 
     return this.sBoxId;
 
@@ -83,7 +120,7 @@ class Line {
   public getCount(iSearch: number) {
     let aFound: number[];
 
-    aFound = this.aCount.filter( v => v === iSearch );
+    aFound = this.aCount.filter(v => v === iSearch);
 
     return aFound.length; // number of replicates of the result - iSerch
   }
