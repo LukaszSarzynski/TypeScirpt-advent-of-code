@@ -10,6 +10,7 @@ export class Day20181204Component implements OnInit {
   sAdventDayData: string;
   aLines: string[];
   sPartOneAnswer: number;
+  sPartTwoAnswer: number;
   inGuardShift: IHashNumberStrings = {};
   inDaysStatus: IHashStringToIHashNumberStrings = {};
   aGurads: Array<Guard> = []; // main table of all guards
@@ -24,37 +25,7 @@ export class Day20181204Component implements OnInit {
   public runPart1() {
     this.sPartOneAnswer = 0;
 
-    this.aLines = this.sAdventDayData.split('\n');
-
-
-    let tmpLineData: LineData;
-    for (let index = 0; index < this.aLines.length; index++) {
-      if (this.aLines[index].length) {
-        tmpLineData = new LineData(this.aLines[index]);
-        if (tmpLineData.getType() === 'Guard') {
-          // action for Guard shift log only
-          this.putToHash(this.inGuardShift, tmpLineData.getGuardId(), tmpLineData.getMontDay());
-          this.aGurads[tmpLineData.getGuardId()] = new Guard(tmpLineData.getGuardId());
-        } else {
-          this.putToDaysHash(this.inDaysStatus, tmpLineData.getMontDay(), tmpLineData.getType(), tmpLineData.getMinuts());
-        }
-      }
-
-    }
-
-
-    // fill Guards of data
-    for (let iGuardId = 0; iGuardId < this.aGurads.length; iGuardId++) {
-      const tmpGuard = this.aGurads[iGuardId];
-      const tmpGuardShift = this.inGuardShift[iGuardId];
-
-      // tslint:disable-next-line:forin
-      for (const iterator in tmpGuardShift) { // for each day when Guard works
-        const kMonthDay = tmpGuardShift[iterator];
-        tmpGuard.addDay(kMonthDay, this.inDaysStatus[kMonthDay]);
-      }
-    }
-
+    this.importData();
 
     let iSleepTime = -1;
     let oGuardSleepyhead: Guard;
@@ -75,7 +46,63 @@ export class Day20181204Component implements OnInit {
 
   }
 
+  public runPart2() {
+    this.sPartTwoAnswer = 0;
+
+    this.importData();
+
+    let iMaxUsedMinute = -1;
+    let oGuardSleepyhead: Guard;
+    // check who sleep more in one minute
+    for (const key in this.aGurads) {
+      if (this.aGurads.hasOwnProperty(key)) {
+        const oGuard = this.aGurads[key];
+        const iTmpSleepTime = oGuard.getMaxOfMinuteAsleep();
+        if (iTmpSleepTime > iMaxUsedMinute) {
+          iMaxUsedMinute = iTmpSleepTime;
+          oGuardSleepyhead = oGuard;
+        }
+      }
+    }
+
+
+    this.sPartTwoAnswer = oGuardSleepyhead.getId() * oGuardSleepyhead.getMostMinuteAsleep();
+
+  }
+
   ngOnInit() {
+  }
+
+  private importData() {
+    this.aLines = this.sAdventDayData.split('\n');
+
+    let tmpLineData: LineData;
+    for (let index = 0; index < this.aLines.length; index++) {
+      if (this.aLines[index].length) {
+        tmpLineData = new LineData(this.aLines[index]);
+        if (tmpLineData.getType() === 'Guard') {
+          // action for Guard shift log only
+          this.putToHash(this.inGuardShift, tmpLineData.getGuardId(), tmpLineData.getMontDay());
+          this.aGurads[tmpLineData.getGuardId()] = new Guard(tmpLineData.getGuardId());
+        } else {
+          this.putToDaysHash(this.inDaysStatus, tmpLineData.getMontDay(), tmpLineData.getType(), tmpLineData.getMinuts());
+        }
+      }
+
+    }
+
+    // fill Guards of data
+    for (let iGuardId = 0; iGuardId < this.aGurads.length; iGuardId++) {
+      const tmpGuard = this.aGurads[iGuardId];
+      const tmpGuardShift = this.inGuardShift[iGuardId];
+
+      // tslint:disable-next-line:forin
+      for (const iterator in tmpGuardShift) { // for each day when Guard works
+        const kMonthDay = tmpGuardShift[iterator];
+        tmpGuard.addDay(kMonthDay, this.inDaysStatus[kMonthDay]);
+      }
+    }
+
   }
 
   private putToHash(inHash: IHashNumberStrings, key: number, value: string) {
@@ -154,9 +181,12 @@ class Guard {
 
   inGuardsStatus: IHashNumberStrings[];
   aMinutsSleep: number[]; // mark witch minuts they sleep
+  iSleepTime: number;
 
   constructor(private iId) {
     this.inGuardsStatus = [];
+    this.aMinutsSleep = [];
+    this.iSleepTime = 0;
   }
 
   public getId() {
@@ -167,16 +197,39 @@ class Guard {
     this.inGuardsStatus[kMonthDay] = inDayStatus;
   }
 
+  public getMaxOfMinuteAsleep() {
+    // to make sure that we work on calcuated date
+    this.checkCalculate();
+
+    return (Number)(Math.max.apply(null, this.aMinutsSleep));
+  }
+
   public getMostMinuteAsleep() {
-    const max = Math.max.apply(null, this.aMinutsSleep);
+    const max = this.getMaxOfMinuteAsleep();
     return this.aMinutsSleep.indexOf(max);
   }
 
 
   public getMinutsSleep() {
+    // to make sure that we work on calcuated date
+    this.checkCalculate();
+
+    return this.iSleepTime;
+
+  }
+
+  public checkCalculate() {
+    // if calucate isn't ready
+    if (this.aMinutsSleep.length < 1) {
+      this.calculateSleep();
+    }
+  }
+
+  public calculateSleep() {
 
     this.aMinutsSleep = new Array(60).fill(0);
-    let iMinutsSleep = 0;
+    this.iSleepTime = 0;
+
     let iMinutsFrom = -1;
     let iMinutsTo = -1;
     for (const kMonthDay in this.inGuardsStatus) {
@@ -190,7 +243,7 @@ class Guard {
               iMinutsFrom = (Number)(kMinuts);
             } else {
               iMinutsTo = (Number)(kMinuts);
-              iMinutsSleep += iMinutsTo - iMinutsFrom;
+              this.iSleepTime += iMinutsTo - iMinutsFrom;
 
               // mark minuts table
               for (let i = iMinutsFrom; i < iMinutsTo; i++) {
@@ -205,7 +258,7 @@ class Guard {
       }
     }
 
-    return iMinutsSleep;
+    return this.iSleepTime;
   }
 
 
