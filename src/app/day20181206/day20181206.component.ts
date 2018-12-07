@@ -10,7 +10,8 @@ export class Day20181206Component {
   sAdventDayData: string;
   aLines: string[];
   sPartOneAnswer: number;
-  sPartOneShow: string;
+  sPartTwoAnswer: number;
+  sAdventDayDatahow: string;
 
   // for example, first points is { x: aPointsX[0], y: aPointsY[0] }
   aPointsX: number[] = []; // x coridate of points
@@ -29,11 +30,20 @@ export class Day20181206Component {
   runPart1() {
     this.sPartOneAnswer = 0;
     this.importData();
-    this.getSizeMaxAreaFinite();
-
+    this.fillGirdAreaOfNearPoin();
 
     this.sPartOneAnswer = this.getSizeMaxAreaFinite();
-    this.sPartOneShow = this.girdToHtml();
+    this.sAdventDayDatahow = this.girdToHtml();
+  }
+
+  runPart2() {
+    this.sPartTwoAnswer = 0;
+    this.aInfPointNumber = []; // clear data from first part
+    this.importData();
+    this.fillGirdAreaOfTotalDistanceLess(10000);
+
+    this.sPartTwoAnswer = this.getSizeOfTotalDistanceLess();
+    this.sAdventDayDatahow = this.girdToHtml();
   }
 
   private getSizeMaxAreaFinite() {
@@ -51,9 +61,14 @@ export class Day20181206Component {
 
       }
     }
-
     return iMaxArea;
 
+  }
+
+  private getSizeOfTotalDistanceLess() {
+    const aFlatGird = this.aGird.concat.apply([], this.aGird);
+    // sum all 1 (becuse 1 is mark point witch have this condtion)
+    return aFlatGird.filter(v => v === 1).length;
   }
 
   private importData() {
@@ -72,6 +87,23 @@ export class Day20181206Component {
     this.iGridXEnd = Math.max.apply(null, this.aPointsX) + 1;
     this.iGridYEnd = Math.max.apply(null, this.aPointsY) + 1;
 
+  }
+
+  private fillGirdAreaOfTotalDistanceLess(iTotalDistaceMax) {
+    // fill gird
+    for (let gy = this.iGridYStart; gy <= this.iGridYEnd; gy++) {
+      this.aGird[gy] = [];
+      for (let gx: number = this.iGridXStart; gx <= this.iGridXEnd; gx++) {
+        if ( this.getTotalDistaceSum(gx, gy) < iTotalDistaceMax ) {
+          this.aGird[gy][gx] = 1;
+        } else {
+          this.aGird[gy][gx] = 0;
+        }
+      }
+    }
+  }
+
+  private fillGirdAreaOfNearPoin() {
     // fill gird
     for (let gy = this.iGridYStart; gy <= this.iGridYEnd; gy++) {
       this.aGird[gy] = [];
@@ -84,6 +116,19 @@ export class Day20181206Component {
         }
       }
     }
+  }
+
+  private getTotalDistaceSum(px, py) {
+    const aDistace: number[] = [];
+
+    for (let iPointNumber = 0; iPointNumber < this.aPointsX.length; iPointNumber++) {
+      // calculate manhattan distance
+      aDistace[iPointNumber] = Math.abs(this.aPointsX[iPointNumber] - px)
+        + Math.abs(this.aPointsY[iPointNumber] - py);
+    }
+
+   // summ all distance
+   return aDistace.reduce((a, b) => a + b, 0);
 
   }
 
@@ -126,6 +171,7 @@ export class Day20181206Component {
         if (this.aInfPointNumber.indexOf(this.aGird[gy][gx]) + 1) {
           tmpPointNumber += '%';
         }
+        // sText += tmpPointNumber;
         sText += '|' + space.repeat(3 - tmpPointNumber.length) + tmpPointNumber;
       }
       sText += '<br />';
