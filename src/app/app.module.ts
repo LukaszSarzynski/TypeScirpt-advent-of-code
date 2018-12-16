@@ -15,6 +15,8 @@ import { Day20181201Component } from './day20181201/day20181201.component';
 import { Day20181210Component } from './day20181210/day20181210.component';
 import { Day20181211Component } from './day20181211/day20181211.component';
 import { Day20181212Component } from './day20181212/day20181212.component';
+import { Day20181213Component } from './day20181213/day20181213.component';
+import { Day20181214Component } from './day20181214/day20181214.component';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { Day20181212Component } from './day20181212/day20181212.component';
     Day20181201Component,
     Day20181210Component,
     Day20181211Component,
-    Day20181212Component
+    Day20181212Component,
+    Day20181213Component,
+    Day20181214Component
   ],
   imports: [
     BrowserModule,
