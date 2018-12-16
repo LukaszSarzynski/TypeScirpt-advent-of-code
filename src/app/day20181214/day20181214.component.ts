@@ -13,6 +13,10 @@ export class Day20181214Component  {
   sPartTwoAnswer: number;
   sAdventDayDataShow: string;
 
+  aWanted: number[]; // array of string to fund in parto
+  nWantedLength: number;
+  nLastIndexChecked: number; // indext of Reciept array where we try fund it alledy
+
   aReciept: number[]; // actual chain of recipt
   sActualReciept: string;
   nPosElfFirst: number; // position of first elf
@@ -44,6 +48,9 @@ export class Day20181214Component  {
   runPart2() {
     this.sPartTwoAnswer = 0;
     const sWanted = this.sAdventDayData.trim();
+    this.aWanted = sWanted.split('').map(Number);
+    this.nWantedLength = this.aWanted.length;
+    this.nLastIndexChecked = 0;
 
     // starting rules
     this.initalReciept();
@@ -51,15 +58,41 @@ export class Day20181214Component  {
     this.sActualReciept = this.aReciept.join('');
     // this.sAdventDayDataShow =  this.getHtmlOfRecipe();
 
-    while (this.sActualReciept.indexOf(sWanted) === -1) {
+
+    const t0 = performance.now();
+    while (this.getWantedIndex() === -1) {
       this.putSuffixToRecipe(); // elf first and second and put sum to end
       this.moveElfs(); // move elfs
-      this.sActualReciept = this.aReciept.join(''); // convert to string
-      console.log('array length: ' + this.aReciept.length);
       // this.sAdventDayDataShow += this.getHtmlOfRecipe();
     }
+    const t1 = performance.now();
 
-    this.sPartTwoAnswer = this.sActualReciept.indexOf(sWanted);
+    console.log("Length of Chocolate Charts finally is " + this.aReciept.length + ' numbers');
+    console.log("Found result in " + Math.trunc(t1 - t0) + " milliseconds.")
+    this.sPartTwoAnswer = this.nLastIndexChecked ;
+  }
+
+  private getWantedIndex() {
+    const nLastIndexNeedToCheck = this.nLastIndexChecked + this.nWantedLength - 1;
+    if (typeof this.aReciept[nLastIndexNeedToCheck] === 'undefined') {
+      // if not ready to check yet
+      return -1;
+    }
+    for (let iW = 0; iW < this.nWantedLength; iW++) {
+      // compare each char wanted vs last of Reciept
+      if (this.aWanted[iW] === this.aReciept[this.nLastIndexChecked + iW]) {
+        // if we match all and go to end, we have a succes
+        if (iW === this.nWantedLength - 1) {
+          return this.nLastIndexChecked;
+        }
+      } else {
+        break;
+      }
+    }
+
+
+    this.nLastIndexChecked += 1;
+    return -1;
   }
 
   private initalReciept() {
