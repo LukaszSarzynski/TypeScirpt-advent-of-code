@@ -10,9 +10,11 @@ export class Day20181214Component  {
 
   sAdventDayData: string;
   sPartOneAnswer: string;
+  sPartTwoAnswer: number;
   sAdventDayDataShow: string;
 
   aReciept: number[]; // actual chain of recipt
+  sActualReciept: string;
   nPosElfFirst: number; // position of first elf
   nPosElfSecond: number; // acutal positoon of second elf
   nNextStep: number; // how more will be next step
@@ -22,12 +24,10 @@ export class Day20181214Component  {
   runPart1() {
     this.sPartOneAnswer = '';
     this.sAdventDayDataShow = '';
+    const iRecieptBefore: number = (Number)(this.sAdventDayData);
 
     // starting rules
-    this.aReciept = [3, 7];
-    this.nPosElfFirst = 0;
-    this.nPosElfSecond = 1;
-    const iRecieptBefore: number = (Number)(this.sAdventDayData);
+    this.initalReciept();
 
     // this.sAdventDayDataShow =  this.getHtmlOfRecipe();
 
@@ -39,6 +39,34 @@ export class Day20181214Component  {
 
     // get finall answer
     this.sPartOneAnswer = (this.aReciept.slice(iRecieptBefore, iRecieptBefore + 10)).join('');
+  }
+
+  runPart2() {
+    this.sPartTwoAnswer = 0;
+    const sWanted = this.sAdventDayData.trim();
+
+    // starting rules
+    this.initalReciept();
+
+    this.sActualReciept = this.aReciept.join('');
+    // this.sAdventDayDataShow =  this.getHtmlOfRecipe();
+
+    while (this.sActualReciept.indexOf(sWanted) === -1) {
+      this.putSuffixToRecipe(); // elf first and second and put sum to end
+      this.moveElfs(); // move elfs
+      this.sActualReciept = this.aReciept.join(''); // convert to string
+      console.log('array length: ' + this.aReciept.length);
+      // this.sAdventDayDataShow += this.getHtmlOfRecipe();
+    }
+
+    this.sPartTwoAnswer = this.sActualReciept.indexOf(sWanted);
+  }
+
+  private initalReciept() {
+    // starting rules
+    this.aReciept = [3, 7];
+    this.nPosElfFirst = 0;
+    this.nPosElfSecond = 1;
   }
 
   private putSuffixToRecipe() {
