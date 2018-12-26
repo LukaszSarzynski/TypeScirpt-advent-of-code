@@ -1,15 +1,48 @@
-<p>
-  day20181214
-</p>
+<mat-grid-list cols="2" rowHeight="4:1" >
+  <mat-grid-tile>
+    <textarea placeholder="your puzzle input" [(ngModel)]="sAdventDayData"></textarea>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Day 14
+          </mat-panel-title>
+          <mat-panel-description>
+            of 2018
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <strong>--- Day 14: Chocolate Charts ---</strong>
+        <br /><br />
+        You finally have a chance to look at all of the produce moving around.
+        Chocolate, cinnamon, mint, chili peppers, nutmeg, vanilla...
+        the Elves must be growing these plants to make hot chocolate!
+        As you realize this, you hear a conversation in the distance.
+        When you go to investigate, you discover two Elves ..
+        <br /><br />
+        <a target="_blank" href="https://adventofcode.com/2018/day/14">Show all story</a>
+      </mat-expansion-panel>
 
-<textarea [(ngModel)]="sAdventDayData"></textarea>
+    </mat-accordion>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <div>
+      <button mat-raised-button (click)="runPart1()">Part1 answer</button>
+      <code>{{sPartOneAnswer}}</code><br />
+      <br />
+      <button mat-raised-button (click)="runPart2()">Part2 answer</button>
+      <code>{{sPartTwoAnswer}}</code>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile>
 
-<hr />
-<button (click)="runPart1()">Part1 answer</button>
-<code>{{sPartOneAnswer}}</code><br />
+          Actual code in localization:
+          <a target="_blank" href="https://github.com/LukaszSarzynski/typescirpt-advent-of-code/blob/015e7404a71fc943d7861e4d8428c68e06e47eb6/src/app/day20181214/day20181214.component.ts">
+            GitHub / LS / day20181214.ts</a>
 
-<hr />
-<button (click)="runPart2()">Part2 answer</button>
-<code>{{sPartTwoAnswer}}</code>
-
-<pre [innerHTML]="sAdventDayDataShow"></pre>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="2">
+    <pre [innerHTML]="sAdventDayDataShow"></pre>
+  </mat-grid-tile>
+</mat-grid-list>

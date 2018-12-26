@@ -17,6 +17,8 @@ import { Day20181211Component } from './day20181211/day20181211.component';
 import { Day20181212Component } from './day20181212/day20181212.component';
 import { Day20181213Component } from './day20181213/day20181213.component';
 import { Day20181214Component } from './day20181214/day20181214.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material';
 
 
 @NgModule({
@@ -39,7 +41,9 @@ import { Day20181214Component } from './day20181214/day20181214.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
