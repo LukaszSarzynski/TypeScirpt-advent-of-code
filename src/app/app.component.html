@@ -1,10 +1,16 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    Day-x
+
+    2018: &nbsp;
+    <mat-button-toggle-group appearance="legacy">
+      <ng-container *ngFor="let rlink of aLinks; ">
+        <mat-button-toggle [routerLink]="rlink.path">
+          {{rlink.path.replace('2018/','d ')}}
+        </mat-button-toggle>
+      </ng-container>
+    </mat-button-toggle-group>
+
   </mat-toolbar-row>
 </mat-toolbar>
-
-<aofc-day20181214></aofc-day20181214>
-
 
 <router-outlet></router-outlet>
