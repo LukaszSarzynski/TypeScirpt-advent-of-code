@@ -19,6 +19,7 @@ import { Day20181213Component } from './day20181213/day20181213.component';
 import { Day20181214Component } from './day20181214/day20181214.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material';
+import { AdventPartialComponent } from './advent-partial/advent-partial.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { MaterialModule } from './material';
     Day20181211Component,
     Day20181212Component,
     Day20181213Component,
-    Day20181214Component
+    Day20181214Component,
+    AdventPartialComponent
   ],
   imports: [
     BrowserModule,

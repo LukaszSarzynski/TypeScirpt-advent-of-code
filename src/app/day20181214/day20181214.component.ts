@@ -8,9 +8,8 @@ import { ThrowStmt } from '@angular/compiler';
 })
 export class Day20181214Component  {
 
-  sAdventDayData: string;
   sPartOneAnswer: string;
-  sPartTwoAnswer: number;
+  sPartTwoAnswer: string;
   sAdventDayDataShow: string;
 
   aWanted: number[]; // array of string to fund in parto
@@ -25,10 +24,10 @@ export class Day20181214Component  {
 
   constructor() { }
 
-  runPart1() {
+  runPart1(sTextareaAdventData: string) {
     this.sPartOneAnswer = '';
     this.sAdventDayDataShow = '';
-    const iRecieptBefore: number = (Number)(this.sAdventDayData);
+    const iRecieptBefore: number = (Number)(sTextareaAdventData);
 
     // starting rules
     this.initalReciept();
@@ -45,9 +44,9 @@ export class Day20181214Component  {
     this.sPartOneAnswer = (this.aReciept.slice(iRecieptBefore, iRecieptBefore + 10)).join('');
   }
 
-  runPart2() {
-    this.sPartTwoAnswer = 0;
-    const sWanted = this.sAdventDayData.trim();
+  runPart2(sTextareaAdventData: string) {
+    this.sPartTwoAnswer = '';
+    const sWanted = sTextareaAdventData.trim();
     this.aWanted = sWanted.split('').map(Number);
     this.nWantedLength = this.aWanted.length;
     this.nLastIndexChecked = 0;
@@ -69,7 +68,7 @@ export class Day20181214Component  {
 
     console.log("Length of Chocolate Charts finally is " + this.aReciept.length + ' numbers');
     console.log("Found result in " + Math.trunc(t1 - t0) + " milliseconds.")
-    this.sPartTwoAnswer = this.nLastIndexChecked ;
+    this.sPartTwoAnswer = (String)(this.nLastIndexChecked);
   }
 
   private getWantedIndex() {

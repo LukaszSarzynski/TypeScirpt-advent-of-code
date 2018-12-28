@@ -1,12 +1,9 @@
-<p>
-  day20181202
-</p>
-
-<textarea [(ngModel)]="sPartOneData"></textarea>
-<button (click)="runPart1()">Part1 answer</button>
-<code>{{sPartOneAnswer}}</code>
-<hr />
-
-<textarea [(ngModel)]="sPartTwoData"></textarea>
-<button (click)="runPart2()">Part2 answer</button>
-<code>{{sPartTwoAnswer}}</code>
+<aofc-advent-partial [sDate]="20181202"
+[sPartOneAnswer]="sPartOneAnswer" (emitClickPart1)="runPart1($event)"
+[sPartTwoAnswer]="sPartTwoAnswer" (emitClickPart2)="runPart2($event)">
+    <strong>--- Day 2: Inventory Management System ---</strong><br /><br />
+    You stop falling through time, catch your breath,
+    and check the screen on the device. "Destination reached.
+    Current Year: 1518. Current Location: North Pole Utility Closet 83N10."
+   You made it! Now, to find those anomalies..
+</aofc-advent-partial>

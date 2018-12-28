@@ -7,20 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Day20181202Component implements OnInit {
 
-  sPartOneData: string;
-  sPartTwoData: string;
   aLines: string[];
-  sPartOneAnswer: number;
+  sPartOneAnswer: string;
   sPartTwoAnswer: string;
   aCounts: number[];
 
   constructor() { }
 
 
-  public runPart1() {
-    this.sPartOneAnswer = 1;
+  public runPart1(sTextareaAdventData: string) {
+    this.sPartOneAnswer = '';
     this.aCounts = Array<number>(100).fill(0);    // manin restult table
-    this.aLines = this.sPartOneData.split('\n');
+    this.aLines = sTextareaAdventData.split('\n');
 
     let tmpLine: Line;
     for (let index = 0; index < this.aLines.length; index++) {
@@ -42,17 +40,19 @@ export class Day20181202Component implements OnInit {
     let aCountWithoutZero: number[];
     aCountWithoutZero = this.aCounts.filter(v => v !== 0); // prepare no zero restult table need to multiply correct
 
+    let nResult = 1;
     for (let index = 0; index < aCountWithoutZero.length; index++) {
-      this.sPartOneAnswer *= aCountWithoutZero[index]; // calculate the final effect
+      nResult *= aCountWithoutZero[index]; // calculate the final effect
     }
 
 
+    this.sPartOneAnswer = (String)(nResult);
   }
 
 
-  public runPart2() {
+  public runPart2(sTextareaAdventData: string) {
     this.sPartTwoAnswer = ''; // ready answer
-    this.aLines = this.sPartTwoData.split('\n');
+    this.aLines = sTextareaAdventData.split('\n');
 
     let nCharsMatch: number;
     nCharsMatch = 0; // acutal restu of find simmilar
