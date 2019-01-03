@@ -275,9 +275,6 @@ MIT
 @angular/router
 MIT
 
-@angular/forms
-MIT
-
 @angular/cdk
 MIT
 The MIT License
@@ -329,6 +326,9 @@ THE SOFTWARE.
 
 
 @angular/material/grid-list
+
+@angular/forms
+MIT
 
 @angular/animations
 MIT
