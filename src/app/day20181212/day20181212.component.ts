@@ -9,26 +9,43 @@ export class Day20181212Component implements OnInit {
 
   sAdventDayData: string;
   sPartOneAnswer: number;
+  sPartTwoAnswer: number;
   sAdventDayDataShow: string;
   iMaxGeneration: number;
 
   ainRules: IHashStringToStrings =  {};
   ainGenerations: string[][] = [];
 
-  constructor() {
-  }
+  constructor() {  }
 
   runPart1() {
+    this.sAdventDayDataShow = '';
     this.iMaxGeneration = 20;
     this.sPartOneAnswer = 0;
     this.importData();
     for (let iActualGen = 1; iActualGen <= this.iMaxGeneration; iActualGen++) {
       this.createGeneration(iActualGen);
     }
-
-
     this.sPartOneAnswer = this.getSumOfPlansPosition(this.iMaxGeneration) ;
     this.sAdventDayDataShow = this.returnHtmlFromGenerations();
+  }
+
+  runPart2() {
+    this.sAdventDayDataShow = '';
+    this.iMaxGeneration = 999;
+    this.sPartTwoAnswer = 0;
+    this.importData();
+    for (let iActualGen = 1; iActualGen <= this.iMaxGeneration; iActualGen++) {
+      this.createGeneration(iActualGen);
+      // show ony part of this to show that we got repeat pattern there
+      if (iActualGen > 950 && iActualGen < 980) {
+        this.sAdventDayDataShow += iActualGen + ': ' + this.getSumOfPlansPosition(iActualGen) + '<br />';
+      }
+    }
+
+    this.sPartTwoAnswer = this.getSumOfPlansPosition(999) +
+                          (50000000000 - 999) *
+                          (this.getSumOfPlansPosition(999) - this.getSumOfPlansPosition(998));
   }
 
   private getSumOfPlansPosition(iGeneration) {
