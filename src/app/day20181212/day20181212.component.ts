@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Day20181212Component implements OnInit {
 
-  sAdventDayData: string;
   sPartOneAnswer: number;
   sPartTwoAnswer: number;
   sAdventDayDataShow: string;
@@ -18,11 +17,15 @@ export class Day20181212Component implements OnInit {
 
   constructor() {  }
 
-  runPart1() {
+  runPart1(sTextareaAdventData: string) {
+    // clear data
     this.sAdventDayDataShow = '';
-    this.iMaxGeneration = 20;
+    this.ainGenerations = [];
     this.sPartOneAnswer = 0;
-    this.importData();
+
+    this.iMaxGeneration = 20; // set rules for this part
+
+    this.importData(sTextareaAdventData);
     for (let iActualGen = 1; iActualGen <= this.iMaxGeneration; iActualGen++) {
       this.createGeneration(iActualGen);
     }
@@ -30,16 +33,22 @@ export class Day20181212Component implements OnInit {
     this.sAdventDayDataShow = this.returnHtmlFromGenerations();
   }
 
-  runPart2() {
+  runPart2(sTextareaAdventData: string) {
+    // clear data
     this.sAdventDayDataShow = '';
-    this.iMaxGeneration = 999;
+    this.ainGenerations = [];
     this.sPartTwoAnswer = 0;
-    this.importData();
+
+    this.iMaxGeneration = 999; // set rules for this part
+
+    this.importData(sTextareaAdventData);
     for (let iActualGen = 1; iActualGen <= this.iMaxGeneration; iActualGen++) {
       this.createGeneration(iActualGen);
       // show ony part of this to show that we got repeat pattern there
       if (iActualGen > 950 && iActualGen < 980) {
-        this.sAdventDayDataShow += iActualGen + ': ' + this.getSumOfPlansPosition(iActualGen) + '<br />';
+        this.sAdventDayDataShow += iActualGen + ': ' + this.getSumOfPlansPosition(iActualGen)
+                                + ' (+ ' + (this.getSumOfPlansPosition(iActualGen) - this.getSumOfPlansPosition(iActualGen - 1 ))
+                                 + ') <br />';
       }
     }
 
@@ -98,8 +107,8 @@ export class Day20181212Component implements OnInit {
 
   }
 
-  private importData() {
-    const aLines = this.sAdventDayData.split('\n');
+  private importData(sTextareaAdventData: string) {
+    const aLines = sTextareaAdventData.split('\n');
 
     let aTmpData: string[];
     aTmpData = aLines[0].split('initial state: ');
