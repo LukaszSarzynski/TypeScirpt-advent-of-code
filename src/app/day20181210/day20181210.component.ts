@@ -7,9 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Day20181210Component implements OnInit {
 
-  sAdventDayData: string;
   sPartOneAnswer: number;
-  sAdventDayDatahow: string;
+  sAdventDayDataShow: string;
 
   aPointRules: PointRule[] = [];
 
@@ -26,23 +25,24 @@ export class Day20181210Component implements OnInit {
    }
 
 
-  runPart1() {
+  runPart1(sTextareaAdventData: string) {
+    this.aGird = [];
     this.sPartOneAnswer = 0;
-    this.importData();
+    this.importData(sTextareaAdventData);
 
     let iStep = 0;
 
     // find vertifical line on 8 size, and don't fund added next step
     while (!this.issetVerticalLine()) {
       this.fillGirdOfSteep(++iStep);
-      console.log(iStep);
+      // console.log(iStep);
       if (iStep > 978000) {
         break;
       }
     }
 
     this.sPartOneAnswer = iStep;
-    this.sAdventDayDatahow = this.girdToHtml();
+    this.sAdventDayDataShow = this.girdToHtml();
   }
 
   private issetVerticalLine(iLenght = 8) {
@@ -52,7 +52,7 @@ export class Day20181210Component implements OnInit {
       return false;
     }
 
-    let iFundLineLenght;
+    let iFundLineLenght: number;
     for (let gx: number = this.iGridXStart; gx <= this.iGridXEnd; gx++){
       iFundLineLenght = 0;
       for (let gy = this.iGridYStart; gy <= this.iGridYEnd; gy++) {
@@ -75,8 +75,8 @@ export class Day20181210Component implements OnInit {
 
   }
 
-  private importData() {
-    const aLines = this.sAdventDayData.split('\n');
+  private importData(sTextareaAdventData: string ) {
+    const aLines = sTextareaAdventData.split('\n');
 
     // import x adn y coridation whith it move
     for (let index = 0; index < aLines.length; index++) {
@@ -92,12 +92,12 @@ export class Day20181210Component implements OnInit {
 
   }
 
-  private fillGirdOfSteep(iSteep) {
+  private fillGirdOfSteep(iSteep: number) {
 
     this.aGird = []; // clear gird
 
-    let aTmpPointsX: number[] = []; // points X for this step
-    let aTmpPointsY: number[] = []; // points Y for this step
+    const aTmpPointsX: number[] = []; // points X for this step
+    const aTmpPointsY: number[] = []; // points Y for this step
 
     for (const Point of this.aPointRules) {
       // calcuate point for step
@@ -113,7 +113,7 @@ export class Day20181210Component implements OnInit {
       this.aGird[nYofSteep][nXofSteep] = 1;
     }
 
-    //find max adn min
+    // find max adn min
     this.iGridXStart = Math.min.apply(null, aTmpPointsX);
     this.iGridYStart = Math.min.apply(null, aTmpPointsY)
     this.iGridXEnd = Math.max.apply(null, aTmpPointsX);
