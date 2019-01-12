@@ -25,6 +25,7 @@ export class AdventPartialComponent implements OnInit {
   sAdventDayData: string;
   sYear: string;
   sDay: string;
+  iDay: number;
 
   constructor() {
 
@@ -36,6 +37,7 @@ export class AdventPartialComponent implements OnInit {
 
      this.sDay = (String) (this.sDate);
      this.sDay = (String) (this.sDay.slice(6, 8));
+     this.iDay = (Number) (this.sDay);
 
 
    }
