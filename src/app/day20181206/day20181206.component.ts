@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { copyStyles } from '@angular/animations/browser/src/util';
 
 @Component({
   selector: 'aofc-day20181206',
@@ -7,11 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Day20181206Component {
 
-  sAdventDayData: string;
   aLines: string[];
   sPartOneAnswer: number;
   sPartTwoAnswer: number;
-  sAdventDayDatahow: string;
+  sAdventDayDataShow: string;
 
   // for example, first points is { x: aPointsX[0], y: aPointsY[0] }
   aPointsX: number[] = []; // x coridate of points
@@ -27,23 +27,23 @@ export class Day20181206Component {
 
   constructor() { }
 
-  runPart1() {
+  runPart1(sTextareaAdventData: string) {
     this.sPartOneAnswer = 0;
-    this.importData();
+    this.importData(sTextareaAdventData);
     this.fillGirdAreaOfNearPoin();
 
     this.sPartOneAnswer = this.getSizeMaxAreaFinite();
-    this.sAdventDayDatahow = this.girdToHtml();
+    //this.sAdventDayDataShow = this.girdToHtml();
   }
 
-  runPart2() {
+  runPart2(sTextareaAdventData: string) {
     this.sPartTwoAnswer = 0;
     this.aInfPointNumber = []; // clear data from first part
-    this.importData();
+    this.importData(sTextareaAdventData);
     this.fillGirdAreaOfTotalDistanceLess(10000);
 
     this.sPartTwoAnswer = this.getSizeOfTotalDistanceLess();
-    this.sAdventDayDatahow = this.girdToHtml();
+    //this.sAdventDayDataShow = this.girdToHtml();
   }
 
   private getSizeMaxAreaFinite() {
@@ -71,14 +71,17 @@ export class Day20181206Component {
     return aFlatGird.filter(v => v === 1).length;
   }
 
-  private importData() {
-    this.aLines = this.sAdventDayData.split('\n');
+  private importData(sTextareaAdventData: string) {
+    this.aGird = [];
+    this.aLines = sTextareaAdventData.split('\n');
 
     // import x adn y coridation to flat array
     for (let index = 0; index < this.aLines.length; index++) {
-      const aPoint = this.aLines[index].split(',');
-      this.aPointsX[index] = (Number)(aPoint[0]);
-      this.aPointsY[index] = (Number)(aPoint[1]);
+      if (this.aLines[index].indexOf(',') > 0) {
+        const aPoint = this.aLines[index].split(',');
+        this.aPointsX[index] = (Number)(aPoint[0]);
+        this.aPointsY[index] = (Number)(aPoint[1]);
+      }
     }
 
     // setting gird frame to manipulate
