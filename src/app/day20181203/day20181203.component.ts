@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Day20181203Component implements OnInit {
 
-  sAdventDayData: string;
   sPartTwoData: string;
   aLines: string[];
   sPartOneAnswer: number;
@@ -21,10 +20,10 @@ export class Day20181203Component implements OnInit {
     }
   }
 
-  public runPart1() {
+  public runPart1(sTextareaAdventData: string) {
     this.sPartOneAnswer = 0;
 
-    this.aLines = this.sAdventDayData.split('\n');
+    this.aLines = sTextareaAdventData.split('\n');
 
     // check claim each with everyone
     for (let iFirst = 0; iFirst < this.aLines.length; iFirst++) {
@@ -61,10 +60,10 @@ export class Day20181203Component implements OnInit {
 
   }
 
-  public runPart2() {
+  public runPart2(sTextareaAdventData: string) {
     this.sPartTwoAnswer = 0;
 
-    this.aLines = this.sAdventDayData.split('\n');
+    this.aLines = sTextareaAdventData.split('\n');
 
     let iCorrectId = -1;
     let bIsWrong;

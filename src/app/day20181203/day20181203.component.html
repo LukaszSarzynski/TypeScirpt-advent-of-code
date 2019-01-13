@@ -1,13 +1,9 @@
-<p>
-  day20181203
-</p>
-
-<textarea [(ngModel)]="sAdventDayData"></textarea>
-
-<hr />
-<button (click)="runPart1()">Part1 answer</button>
-<code>{{sPartOneAnswer}}</code>
-
-<hr />
-<button (click)="runPart2()">Part2 answer</button>
-<code>{{sPartTwoAnswer}}</code>
+<aofc-advent-partial [sDate]="20181203"
+  [sPartOneAnswer]="sPartOneAnswer" (emitClickPart1)="runPart1($event)"
+  [sPartTwoAnswer]="sPartTwoAnswer" (emitClickPart2)="runPart2($event)">
+  <strong>--- Day 3: No Matter How You Slice It ---</strong><br /><br />
+  (..)<br />
+  Each Elf has made a claim about which area of fabric would be ideal for Santa's suit.
+  All claims have an ID and consist of a single rectangle with edges parallel
+  to the edges of the fabric. Each claim's rectangle is defined as follows: ..
+</aofc-advent-partial>
