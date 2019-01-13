@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Day20181204Component implements OnInit {
 
-  sAdventDayData: string;
   aLines: string[];
   sPartOneAnswer: number;
   sPartTwoAnswer: number;
@@ -22,10 +21,10 @@ export class Day20181204Component implements OnInit {
   }
 
 
-  public runPart1() {
+  public runPart1(sTextareaAdventData: string) {
     this.sPartOneAnswer = 0;
 
-    this.importData();
+    this.importData(sTextareaAdventData);
 
     let iSleepTime = -1;
     let oGuardSleepyhead: Guard;
@@ -46,10 +45,10 @@ export class Day20181204Component implements OnInit {
 
   }
 
-  public runPart2() {
+  public runPart2(sTextareaAdventData: string) {
     this.sPartTwoAnswer = 0;
 
-    this.importData();
+    this.importData(sTextareaAdventData);
 
     let iMaxUsedMinute = -1;
     let oGuardSleepyhead: Guard;
@@ -73,8 +72,8 @@ export class Day20181204Component implements OnInit {
   ngOnInit() {
   }
 
-  private importData() {
-    this.aLines = this.sAdventDayData.split('\n');
+  private importData(sTextareaAdventData: string) {
+    this.aLines = sTextareaAdventData.split('\n');
 
     let tmpLineData: LineData;
     for (let index = 0; index < this.aLines.length; index++) {
