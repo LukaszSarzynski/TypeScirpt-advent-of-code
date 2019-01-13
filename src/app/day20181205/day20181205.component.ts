@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Day20181205Component implements OnInit {
 
-  sAdventDayData: string;
   sPartOneAnswer: number;
   sPartTwoAnswer: number;
 
@@ -16,9 +15,9 @@ export class Day20181205Component implements OnInit {
   ngOnInit() {
   }
 
-  runPart1() {
+  runPart1(sTextareaAdventData: string) {
     this.sPartOneAnswer = 0;
-    let sNewText: string = this.sAdventDayData.trim();
+    let sNewText: string = sTextareaAdventData.trim();
 
     // needed data - all chars know by word ;)
     const aChar: string[] = 'abcdefghijklmnopqrstuvwxyz'.split('');
@@ -28,9 +27,9 @@ export class Day20181205Component implements OnInit {
     this.sPartOneAnswer = sNewText.length ;
   }
 
-  runPart2() {
+  runPart2(sTextareaAdventData: string) {
     this.sPartTwoAnswer = 0;
-    let sNewText: string = this.sAdventDayData.trim();
+    let sNewText: string = sTextareaAdventData.trim();
 
     // needed data - all chars know by word ;)
     const aChar: string[] = 'abcdefghijklmnopqrstuvwxyz'.split('');
@@ -38,7 +37,7 @@ export class Day20181205Component implements OnInit {
     let iBestReduce = sNewText.length;
       // check all combination
       aChar.forEach(v => {
-        sNewText = this.sAdventDayData.trim();
+        sNewText = sTextareaAdventData.trim();
 
         sNewText = sNewText.replace(new RegExp(v, 'g') , ''); // trim actual char
         sNewText = sNewText.replace(new RegExp(v.toUpperCase(), 'g'), ''); // trim upper actual char
@@ -51,7 +50,7 @@ export class Day20181205Component implements OnInit {
     this.sPartTwoAnswer = iBestReduce;
   }
 
-  private reduce(sNewText, aChar) {
+  private reduce(sNewText: string, aChar: string[]) {
     let sTmp: string;
     let iLastLenght: number;
     let bIsSomethingToDo = true;

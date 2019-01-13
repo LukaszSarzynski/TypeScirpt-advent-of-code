@@ -5,11 +5,16 @@ import { Day20181214Component } from './day20181214/day20181214.component';
 import { Day20181212Component } from './day20181212/day20181212.component';
 import { Day20181210Component } from './day20181210/day20181210.component';
 import { Day20181206Component } from './day20181206/day20181206.component';
+import { Day20181205Component } from './day20181205/day20181205.component';
 
 export const routes: Routes = [
   {
     path : '2018/02',
     component: Day20181202Component
+  },
+  {
+    path : '2018/05',
+    component: Day20181205Component
   },
   {
     path : '2018/06',
