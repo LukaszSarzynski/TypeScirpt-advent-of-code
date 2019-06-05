@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { copyStyles } from '@angular/animations/browser/src/util';
 
 @Component({
   selector: 'aofc-day20181206',
